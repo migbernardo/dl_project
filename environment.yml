@@ -1,6 +1,4 @@
 name: dl-project
-channels:
-  - defaults
 dependencies:
   - python=3.9.7
   - numpy=1.21.5
