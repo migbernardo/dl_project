@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>1.0-mb-initial-data-exploration</title>
+<title>2.0-mb-data-preprocessing</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13249,6 +13249,22 @@ div#notebook {
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span> 
+<span class="kn">import</span> <span class="nn">os</span>  
+<span class="kn">import</span> <span class="nn">pickle</span> 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
@@ -13293,81 +13309,81 @@ div#notebook {
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Function that joins all images with the respective labels into a tuple of tensors (img, labels)</p>
+<ul>
+<li><p>img tensor dimensions: (num_images, 64, 64, 3)</p>
+</li>
+<li><p>labels tensor dimensions: (num_images, 10)</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># categories</span>
-<span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">dst_path</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">data_gen</span><span class="p">(</span><span class="n">src_path</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>   
+    
+    <span class="n">num_img</span> <span class="o">=</span> <span class="mi">0</span>  
+    <span class="n">count_index</span> <span class="o">=</span> <span class="mi">0</span> 
+    <span class="c1"># save list of labels corresponding to each dir&#39;s name</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">src_path</span><span class="p">)</span> 
+    <span class="n">labels</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span> 
+    <span class="c1"># go through each lab/dir and add number of images inside to num_img</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span> 
+        <span class="n">num_img</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">src_path</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+    
+    <span class="c1"># initialize arrays filled with zeros corresponding to the output dimensions of the images and its labels</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="n">num_img</span><span class="p">,</span><span class="n">size</span><span class="p">,</span><span class="n">size</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="n">num_img</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)])</span> 
+    
+    <span class="c1"># go through labels, save the path to its corresponding dir, and save the number of images inside</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span> 
+        <span class="n">cur_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">src_path</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>  
+        <span class="n">n_img</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">cur_path</span><span class="p">))</span>  
+
+        <span class="c1"># open each image, convert into array, and add data and labels to the corresponding X and y arrays</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_img</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>   
+            <span class="n">count_index</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_path</span><span class="p">,</span> <span class="n">labels</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;_</span><span class="si">{}</span><span class="s1">.jpg&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span> 
+            <span class="n">img_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>  
+            <span class="n">label_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span> 
+            <span class="n">np</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">label_arr</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">X</span><span class="p">[</span><span class="n">count_index</span><span class="o">-</span><span class="mi">1</span><span class="p">][:</span><span class="mi">64</span><span class="p">][:</span><span class="mi">64</span><span class="p">][:</span><span class="mi">64</span><span class="p">]</span> <span class="o">=</span> <span class="n">img_arr</span>  
+            <span class="n">y</span><span class="p">[</span><span class="n">count_index</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_arr</span>  
+            
+    <span class="c1"># return tensor tuple        </span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[5]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[&#39;Pasture&#39;,
- &#39;HerbaceousVegetation&#39;,
- &#39;Forest&#39;,
- &#39;PermanentCrop&#39;,
- &#39;River&#39;,
- &#39;Residential&#39;,
- &#39;Highway&#39;,
- &#39;SeaLake&#39;,
- &#39;Industrial&#39;,
- &#39;AnnualCrop&#39;]</pre>
 </div>
-
-</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Test function and load some data points</p>
 
 </div>
 </div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dst_path</span><span class="p">,</span> <span class="s1">&#39;River&#39;</span><span class="p">,</span> <span class="s1">&#39;River_1.jpg&#39;</span><span class="p">))</span> 
-<span class="n">test_img</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">data_gen</span><span class="p">(</span><span class="n">dst_path</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[6]:</div>
-
-
-
-
-<div class="output_png output_subarea output_execute_result">
-<img src="data:image/png;base64,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
-"
->
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -13377,7 +13393,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_img</span><span class="o">.</span><span class="n">mode</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
@@ -13396,7 +13412,7 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&#39;RGB&#39;</pre>
+<pre>(27000, 64, 64, 3)</pre>
 </div>
 
 </div>
@@ -13410,7 +13426,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_img</span><span class="o">.</span><span class="n">size</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
@@ -13429,7 +13445,7 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(64, 64)</pre>
+<pre>(27000, 10)</pre>
 </div>
 
 </div>
@@ -13443,8 +13459,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_img_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">test_img</span><span class="p">)</span>
-<span class="n">test_img_arr</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -13463,55 +13478,7 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>array([[[110, 116, 114],
-        [113, 115, 114],
-        [102, 100, 101],
-        ...,
-        [ 75,  86,  88],
-        [ 80,  89,  94],
-        [ 82,  89,  97]],
-
-       [[110, 116, 114],
-        [113, 115, 114],
-        [101, 101, 101],
-        ...,
-        [ 75,  86,  88],
-        [ 78,  89,  93],
-        [ 80,  89,  94]],
-
-       [[105, 114, 109],
-        [110, 112, 111],
-        [ 99,  99, 101],
-        ...,
-        [ 74,  88,  91],
-        [ 77,  88,  92],
-        [ 77,  88,  92]],
-
-       ...,
-
-       [[ 48,  67,  82],
-        [ 48,  67,  84],
-        [ 47,  66,  83],
-        ...,
-        [ 54,  82,  83],
-        [ 56,  81,  85],
-        [ 60,  81,  86]],
-
-       [[ 45,  67,  81],
-        [ 47,  66,  81],
-        [ 46,  65,  80],
-        ...,
-        [ 54,  82,  83],
-        [ 58,  82,  84],
-        [ 62,  83,  86]],
-
-       [[ 43,  66,  80],
-        [ 44,  66,  80],
-        [ 45,  64,  79],
-        ...,
-        [ 55,  81,  80],
-        [ 61,  83,  81],
-        [ 67,  86,  84]]], dtype=uint8)</pre>
+<pre>array([1., 0., 0., 0., 0., 0., 0., 0., 0., 0.])</pre>
 </div>
 
 </div>
@@ -13519,25 +13486,13 @@ div#notebook {
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<ul>
-<li>Each 64x64 picture has 3 RGB channels and its represented by a (64, 64, 3) tensor </li>
-<li>The network has to be fed in batches, receiving as input a tensor with (batch_size, 64, 64, 3) dimensions </li>
-<li>The RGB channel values are in the [0, 255] range. This is not ideal for a neural network; in general one should use small input values to get faster convergence, thus reducing training time</li>
-</ul>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_img_arr</span><span class="o">.</span><span class="n">shape</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -13556,7 +13511,55 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(64, 64, 3)</pre>
+<pre>array([[[149., 121., 120.],
+        [147., 121., 120.],
+        [146., 120., 119.],
+        ...,
+        [102.,  90., 100.],
+        [104.,  92., 102.],
+        [103.,  91., 101.]],
+
+       [[149., 121., 120.],
+        [149., 121., 120.],
+        [149., 119., 119.],
+        ...,
+        [102.,  90., 100.],
+        [104.,  92., 102.],
+        [103.,  91., 101.]],
+
+       [[143., 117., 116.],
+        [144., 115., 117.],
+        [147., 116., 121.],
+        ...,
+        [102.,  92., 101.],
+        [102.,  90., 100.],
+        [103.,  91., 101.]],
+
+       ...,
+
+       [[141., 117., 115.],
+        [141., 117., 117.],
+        [137., 117., 118.],
+        ...,
+        [103.,  93., 102.],
+        [100.,  90., 101.],
+        [101.,  90., 104.]],
+
+       [[130., 111., 113.],
+        [132., 112., 114.],
+        [129., 110., 116.],
+        ...,
+        [105.,  94., 102.],
+        [105.,  93., 103.],
+        [107.,  95., 107.]],
+
+       [[122., 106., 109.],
+        [122., 105., 111.],
+        [120., 103., 111.],
+        ...,
+        [106.,  95., 103.],
+        [106.,  95., 103.],
+        [107.,  95., 105.]]])</pre>
 </div>
 
 </div>
@@ -13564,21 +13567,13 @@ div#notebook {
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>For now, a simple scalar multiplication is used to scale the pictures.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">255</span><span class="p">)</span> <span class="o">*</span> <span class="n">test_img_arr</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3000</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -13597,55 +13592,7 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>array([[[0.43137255, 0.45490196, 0.44705882],
-        [0.44313725, 0.45098039, 0.44705882],
-        [0.4       , 0.39215686, 0.39607843],
-        ...,
-        [0.29411765, 0.3372549 , 0.34509804],
-        [0.31372549, 0.34901961, 0.36862745],
-        [0.32156863, 0.34901961, 0.38039216]],
-
-       [[0.43137255, 0.45490196, 0.44705882],
-        [0.44313725, 0.45098039, 0.44705882],
-        [0.39607843, 0.39607843, 0.39607843],
-        ...,
-        [0.29411765, 0.3372549 , 0.34509804],
-        [0.30588235, 0.34901961, 0.36470588],
-        [0.31372549, 0.34901961, 0.36862745]],
-
-       [[0.41176471, 0.44705882, 0.42745098],
-        [0.43137255, 0.43921569, 0.43529412],
-        [0.38823529, 0.38823529, 0.39607843],
-        ...,
-        [0.29019608, 0.34509804, 0.35686275],
-        [0.30196078, 0.34509804, 0.36078431],
-        [0.30196078, 0.34509804, 0.36078431]],
-
-       ...,
-
-       [[0.18823529, 0.2627451 , 0.32156863],
-        [0.18823529, 0.2627451 , 0.32941176],
-        [0.18431373, 0.25882353, 0.3254902 ],
-        ...,
-        [0.21176471, 0.32156863, 0.3254902 ],
-        [0.21960784, 0.31764706, 0.33333333],
-        [0.23529412, 0.31764706, 0.3372549 ]],
-
-       [[0.17647059, 0.2627451 , 0.31764706],
-        [0.18431373, 0.25882353, 0.31764706],
-        [0.18039216, 0.25490196, 0.31372549],
-        ...,
-        [0.21176471, 0.32156863, 0.3254902 ],
-        [0.22745098, 0.32156863, 0.32941176],
-        [0.24313725, 0.3254902 , 0.3372549 ]],
-
-       [[0.16862745, 0.25882353, 0.31372549],
-        [0.17254902, 0.25882353, 0.31372549],
-        [0.17647059, 0.25098039, 0.30980392],
-        ...,
-        [0.21568627, 0.31764706, 0.31372549],
-        [0.23921569, 0.3254902 , 0.31764706],
-        [0.2627451 , 0.3372549 , 0.32941176]]])</pre>
+<pre>array([0., 1., 0., 0., 0., 0., 0., 0., 0., 0.])</pre>
 </div>
 
 </div>
@@ -13653,30 +13600,84 @@ div#notebook {
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The function creates a tensor with the desired dimensions full of zeros, then they are replaced by each picture's RGB values</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">merge_img</span><span class="p">(</span><span class="n">num_img</span><span class="p">):</span> 
-    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="n">num_img</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_img</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>   
-        <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dst_path</span><span class="p">,</span> <span class="s1">&#39;River&#39;</span><span class="p">,</span> <span class="s1">&#39;River_</span><span class="si">{}</span><span class="s1">.jpg&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span> 
-        <span class="n">img_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span> 
-        <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][:</span><span class="mi">64</span><span class="p">][:</span><span class="mi">64</span><span class="p">][:</span><span class="mi">64</span><span class="p">]</span> <span class="o">=</span> <span class="n">img_arr</span>  
-    <span class="k">return</span> <span class="n">data</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3000</span><span class="p">]</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[12]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[[40., 63., 81.],
+        [41., 62., 79.],
+        [42., 63., 80.],
+        ...,
+        [34., 57., 75.],
+        [37., 58., 77.],
+        [39., 57., 77.]],
+
+       [[40., 63., 79.],
+        [39., 62., 78.],
+        [40., 63., 79.],
+        ...,
+        [35., 56., 75.],
+        [37., 58., 77.],
+        [37., 58., 77.]],
+
+       [[41., 64., 78.],
+        [40., 63., 79.],
+        [39., 62., 78.],
+        ...,
+        [38., 56., 78.],
+        [37., 58., 77.],
+        [37., 58., 77.]],
+
+       ...,
+
+       [[38., 60., 74.],
+        [38., 59., 76.],
+        [37., 58., 75.],
+        ...,
+        [34., 60., 75.],
+        [37., 60., 78.],
+        [37., 58., 77.]],
+
+       [[35., 56., 73.],
+        [35., 56., 73.],
+        [40., 63., 79.],
+        ...,
+        [37., 60., 76.],
+        [40., 63., 79.],
+        [37., 58., 77.]],
+
+       [[33., 56., 74.],
+        [33., 56., 72.],
+        [41., 64., 78.],
+        ...,
+        [35., 58., 74.],
+        [36., 59., 75.],
+        [35., 56., 75.]]])</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -13686,10 +13687,30 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">merge_img</span><span class="p">(</span><span class="mi">2500</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">6000</span><span class="p">]</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[13]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([0., 0., 1., 0., 0., 0., 0., 0., 0., 0.])</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -13699,7 +13720,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">6000</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -13718,7 +13739,55 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(2500, 64, 64, 3)</pre>
+<pre>array([[[146., 115., 121.],
+        [143., 116., 123.],
+        [139., 114., 120.],
+        ...,
+        [ 87.,  75.,  87.],
+        [ 88.,  77.,  91.],
+        [ 83.,  76.,  94.]],
+
+       [[149., 115., 116.],
+        [146., 115., 120.],
+        [142., 113., 118.],
+        ...,
+        [ 86.,  75.,  89.],
+        [ 88.,  77.,  91.],
+        [ 86.,  75.,  92.]],
+
+       [[169., 129., 129.],
+        [165., 129., 131.],
+        [161., 126., 130.],
+        ...,
+        [ 79.,  71.,  86.],
+        [ 86.,  75.,  91.],
+        [ 88.,  75.,  92.]],
+
+       ...,
+
+       [[187., 144., 137.],
+        [187., 144., 138.],
+        [185., 142., 136.],
+        ...,
+        [ 92.,  84.,  97.],
+        [ 86.,  78.,  93.],
+        [ 80.,  69.,  86.]],
+
+       [[189., 146., 140.],
+        [188., 144., 141.],
+        [186., 142., 139.],
+        ...,
+        [ 88.,  77.,  91.],
+        [ 95.,  83.,  97.],
+        [ 89.,  75.,  90.]],
+
+       [[185., 141., 138.],
+        [185., 141., 140.],
+        [185., 141., 142.],
+        ...,
+        [ 82.,  69.,  86.],
+        [ 88.,  74.,  89.],
+        [ 95.,  81.,  94.]]])</pre>
 </div>
 
 </div>
@@ -13726,30 +13795,36 @@ div#notebook {
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The labels are represented by a 2D vector, encoded with the category number. Similiar function is used to create the vector</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">label_encoder</span><span class="p">(</span><span class="n">num_img</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span> 
-    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="n">num_img</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_img</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>    
-        <span class="n">label_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> 
-        <span class="n">np</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">label_arr</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_arr</span>  
-    <span class="k">return</span> <span class="n">data</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[15]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([0., 0., 0., 0., 0., 0., 0., 0., 0., 1.])</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -13759,7 +13834,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">label_encoder</span><span class="p">(</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -13778,13 +13853,185 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>array([[0., 0., 0., ..., 0., 1., 0.],
-       [0., 0., 0., ..., 0., 1., 0.],
-       [0., 0., 0., ..., 0., 1., 0.],
+<pre>array([[[33., 53., 77.],
+        [33., 53., 77.],
+        [31., 53., 74.],
+        ...,
+        [33., 56., 74.],
+        [32., 55., 73.],
+        [33., 56., 74.]],
+
+       [[33., 54., 75.],
+        [33., 54., 75.],
+        [31., 53., 74.],
+        ...,
+        [33., 56., 74.],
+        [32., 54., 75.],
+        [32., 54., 75.]],
+
+       [[31., 53., 74.],
+        [31., 53., 74.],
+        [32., 54., 75.],
+        ...,
+        [32., 55., 73.],
+        [33., 55., 76.],
+        [32., 53., 74.]],
+
        ...,
-       [0., 0., 0., ..., 0., 1., 0.],
-       [0., 0., 0., ..., 0., 1., 0.],
-       [0., 0., 0., ..., 0., 1., 0.]])</pre>
+
+       [[31., 54., 72.],
+        [31., 53., 74.],
+        [31., 53., 74.],
+        ...,
+        [32., 55., 73.],
+        [32., 55., 73.],
+        [32., 55., 73.]],
+
+       [[29., 55., 72.],
+        [29., 54., 74.],
+        [31., 53., 74.],
+        ...,
+        [31., 54., 72.],
+        [32., 55., 73.],
+        [32., 54., 75.]],
+
+       [[28., 55., 72.],
+        [28., 55., 72.],
+        [29., 54., 74.],
+        ...,
+        [32., 55., 73.],
+        [32., 55., 73.],
+        [32., 54., 75.]]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Save and load data in pickle format for later use</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;X.pickle&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> 
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">f</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;y.pickle&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> 
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">f</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;X.pickle&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> 
+    <span class="n">X</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[20]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(27000, 64, 64, 3)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;y.pickle&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> 
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[24]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(27000, 10)</pre>
 </div>
 
 </div>
