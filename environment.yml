@@ -7,3 +7,4 @@ dependencies:
   - scikit-learn=1.0.2
   - keras=2.6.0
   - notebook=6.4.8
+
