@@ -41,7 +41,8 @@ def data_gen(src_path, size):
                 # keep track of index of the train arrays
                 train_count += 1
                 img = Image.open(os.path.join(cur_path, labels[index] + '_{}.jpg'.format(i)))
-                img_arr = np.array(img)
+                # convert image to array and rescale
+                img_arr = 1/255 * np.array(img)
                 label_arr = np.zeros(len(labels))
                 np.put(label_arr, index, 1)
                 X_train[train_count - 1][:size][:size][:size] = img_arr
@@ -52,7 +53,8 @@ def data_gen(src_path, size):
                 # keep track of index of the val arrays
                 val_count += 1
                 img = Image.open(os.path.join(cur_path, labels[index] + '_{}.jpg'.format(i)))
-                img_arr = np.array(img)
+                # convert image to array and rescale
+                img_arr = 1/255 * np.array(img)
                 label_arr = np.zeros(len(labels))
                 np.put(label_arr, index, 1)
                 X_val[val_count - 1][:size][:size][:size] = img_arr
@@ -63,7 +65,8 @@ def data_gen(src_path, size):
                 # keep track of index of the test arrays
                 test_count += 1
                 img = Image.open(os.path.join(cur_path, labels[index] + '_{}.jpg'.format(i)))
-                img_arr = np.array(img)
+                # convert image to array and rescale
+                img_arr = 1/255 * np.array(img)
                 label_arr = np.zeros(len(labels))
                 np.put(label_arr, index, 1)
                 X_test[test_count - 1][:size][:size][:size] = img_arr
@@ -79,11 +82,11 @@ dst_path = os.path.join(get_path(), 'data', 'raw')
 # convert data into tensors and split it
 data = data_gen(dst_path, 64)
 
-# make interim dir
-os.mkdir(os.path.join(get_path(), 'data', 'interim'))
+# make processed dir
+os.mkdir(os.path.join(get_path(), 'data', 'processed'))
 
 # change working dir to interim
-os.chdir(os.path.join(get_path(), 'data', 'interim'))
+os.chdir(os.path.join(get_path(), 'data', 'processed'))
 
 # save data into pickle format for later use in interim dir
 for position, name in enumerate(['X_train.pickle', 'X_val.pickle', 'X_test.pickle']):
