@@ -2,18 +2,7 @@ import os
 import shutil
 from urllib import request
 from zipfile import ZipFile
-
-
-# returns the absolute path to main dir of the project
-def get_path():
-    # get current dir abs path
-    cur_dir = os.path.abspath(os.curdir)
-    # go back to parent dir
-    cur_dir2 = os.path.abspath(os.path.join(cur_dir, os.pardir))
-    # go back to subsequent parent dir
-    main_dir = os.path.abspath(os.path.join(cur_dir2, os.pardir))
-    return main_dir
-
+from path import get_path
 
 src_path = os.path.abspath(os.curdir)
 main_path = get_path()
