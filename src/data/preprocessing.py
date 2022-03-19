@@ -5,6 +5,8 @@ import numpy as np
 from path import get_path
 
 
+# function that splits and merges all images into the respective train, validation or test tensors
+# returns a list of tuple tensors
 def data_gen(src_path, size):
     # start counters
     num_img = 0
