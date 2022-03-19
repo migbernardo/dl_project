@@ -85,10 +85,10 @@ data = data_gen(dst_path, 64)
 # make processed dir
 os.mkdir(os.path.join(get_path(), 'data', 'processed'))
 
-# change working dir to interim
+# change working dir to processed
 os.chdir(os.path.join(get_path(), 'data', 'processed'))
 
-# save data into pickle format for later use in interim dir
+# save data into pickle format for later use in processed dir
 for position, name in enumerate(['X_train.pickle', 'X_val.pickle', 'X_test.pickle']):
     with open(name, 'wb') as f:
         pickle.dump(data[position][0], f)
