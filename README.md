@@ -36,7 +36,7 @@ ResNet-50
 - fine-tuning learning rate = 0.001 and 0.0001 
 - accuracy = 98.57%
 
-- Shallow CNN 
+Shallow CNN 
 - train_samples = 150-200 
 - dropout = 0.7
 - data augmentation
