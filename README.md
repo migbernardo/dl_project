@@ -17,4 +17,23 @@ Useful links
 Networks to train
 
 Shallow CNN 
-- 3 layers composed of a 3x3 convolutional layer(stride=1, activation=relu) and a 4x4 max pooling layer (stride=2), followed by a fully connected layer 
+- 3 layers composed of a 3x3 convolutional layer (stride=1, activation=relu) and a subsquent 4x4 max pooling layer (stride=2); followed by a fully connected layer 
+- initial learning rate = 0.001
+- epochs = 120 
+- batch size = 16 
+- decay = 1e-6 
+- momentum (nesterov) = 0.9 
+- optimizer = sgd 
+- loss = categorial crossentropy 
+- data augmentation - horizontal flipping, shearing (0.2 range), and random zooming (0.2 range)
+- accuracy = 92.61%
+
+ResNet-50 
+- pretrained on ILSVRC-2012 dataset
+- last layer learning rate = 0.01
+- fine-tuning learning rate = 0.001 and 0.0001 
+
+- Shallow CNN 
+- train_samples = 150-200 
+- dropout = 0.7
+- data augmentation
