@@ -10,11 +10,19 @@ Useful links
 
 4. [Keras - Image data preprocessing](https://keras.io/api/preprocessing/image/)
 
-5. [Keras - Model training APIs](https://keras.io/api/models/model_training_apis/)
+5. [Keras - Model training APIs](https://keras.io/api/models/model_training_apis/) 
 
-6. [Keras - Transfer learning](https://keras.io/guides/transfer_learning/) 
+6. [Keras - Optimizers](https://keras.io/api/optimizers/)
 
-7. [Keras - ResNet](https://keras.io/api/applications/resnet/)
+7. [Keras - Transfer learning](https://keras.io/guides/transfer_learning/) 
+
+8. [Keras - Learning rate schedules](https://keras.io/api/optimizers/learning_rate_schedules/)
+
+9. [Tensorflow - ImageDataGenerator](https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/ImageDataGenerator) 
+
+10. [Data augmentation tutorial](https://machinelearningmastery.com/how-to-configure-image-data-augmentation-when-training-deep-learning-neural-networks/)
+
+11. [Keras - ResNet](https://keras.io/api/applications/resnet/)
 
 Networks to train
 
