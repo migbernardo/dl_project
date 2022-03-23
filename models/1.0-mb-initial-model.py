@@ -12,6 +12,13 @@ y_train = read_data('y_train.pickle')
 X_val = read_data('X_val.pickle')
 y_val = read_data('y_val.pickle')
 
+datagen = keras.preprocessing.image.ImageDataGenerator(horizontal_flip=True,
+                                                       zoom_range=0.2,
+                                                       shear_range=0.2
+                                                       )
+aug_train = datagen.flow(x=X_train, y=y_train, batch_size=16, shuffle=True, seed=1)
+aug_val = datagen.flow(x=X_val, y=y_val, batch_size=16, shuffle=False, seed=1)
+
 model = Sequential()
 model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(64, 64, 3)))
 model.add(MaxPooling2D((4, 4), strides=(2, 2)))
@@ -35,12 +42,11 @@ model.compile(optimizer=keras.optimizers.SGD(
     name='SGD'
 ), loss='categorical_crossentropy', metrics=['accuracy'])
 
-hist = model.fit(x=X_train,
-                 y=y_train,
-                 batch_size=16,
-                 epochs=1,
+hist = model.fit(x=aug_train,
+                 epochs=5,
                  verbose=1,
-                 validation_data=(X_val, y_val),
-                 shuffle=True,
+                 validation_data=aug_val,
+                 shuffle=False,
+                 steps_per_epoch=20,
                  use_multiprocessing=True
                  )
