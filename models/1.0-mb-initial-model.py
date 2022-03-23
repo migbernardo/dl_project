@@ -1,4 +1,5 @@
 import os
+import matplotlib.pyplot as plt
 from tensorflow import keras
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import MaxPooling2D, Conv2D, Flatten, Dense
@@ -11,6 +12,8 @@ X_train = read_data('X_train.pickle')
 y_train = read_data('y_train.pickle')
 X_val = read_data('X_val.pickle')
 y_val = read_data('y_val.pickle')
+X_test = read_data('X_test.pickle')
+y_test = read_data('y_test.pickle')
 
 datagen = keras.preprocessing.image.ImageDataGenerator(horizontal_flip=True,
                                                        zoom_range=0.2,
@@ -47,6 +50,30 @@ hist = model.fit(x=aug_train,
                  verbose=1,
                  validation_data=aug_val,
                  shuffle=False,
-                 steps_per_epoch=20,
+                 steps_per_epoch=200,
                  use_multiprocessing=True
                  )
+results = model.evaluate(X_test, y_test)
+
+# plot training and validation loss
+loss = hist.history['loss']
+val_loss = hist.history['val_loss']
+epochs = range(1, len(loss) + 1)
+plt.plot(epochs, loss, 'bo', label='Training loss')
+plt.plot(epochs, val_loss, 'b', label='Validation loss')
+plt.title('Training and validation loss')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.legend()
+plt.show()
+
+# plot training and validation accuracy
+acc = hist.history['accuracy']
+val_acc = hist.history['val_accuracy']
+plt.plot(epochs, acc, 'bo', label='Training accuracy')
+plt.plot(epochs, val_acc, 'b', label='Validation accuracy')
+plt.title('Training and validation accuracy')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.legend()
+plt.show()
