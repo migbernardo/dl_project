@@ -2,7 +2,6 @@ from PIL import Image
 import os
 import pickle
 import numpy as np
-from path import get_path
 
 
 # function that splits and merges all images into the respective train, validation or test tensors
@@ -42,7 +41,7 @@ def data_gen(src_path, size):
                 train_count += 1
                 img = Image.open(os.path.join(cur_path, labels[index] + '_{}.jpg'.format(i)))
                 # convert image to array and rescale
-                img_arr = 1/255 * np.array(img)
+                img_arr = 1 / 255 * np.array(img)
                 label_arr = np.zeros(len(labels))
                 np.put(label_arr, index, 1)
                 X_train[train_count - 1][:size][:size][:size] = img_arr
@@ -54,7 +53,7 @@ def data_gen(src_path, size):
                 val_count += 1
                 img = Image.open(os.path.join(cur_path, labels[index] + '_{}.jpg'.format(i)))
                 # convert image to array and rescale
-                img_arr = 1/255 * np.array(img)
+                img_arr = 1 / 255 * np.array(img)
                 label_arr = np.zeros(len(labels))
                 np.put(label_arr, index, 1)
                 X_val[val_count - 1][:size][:size][:size] = img_arr
@@ -66,7 +65,7 @@ def data_gen(src_path, size):
                 test_count += 1
                 img = Image.open(os.path.join(cur_path, labels[index] + '_{}.jpg'.format(i)))
                 # convert image to array and rescale
-                img_arr = 1/255 * np.array(img)
+                img_arr = 1 / 255 * np.array(img)
                 label_arr = np.zeros(len(labels))
                 np.put(label_arr, index, 1)
                 X_test[test_count - 1][:size][:size][:size] = img_arr
@@ -76,23 +75,23 @@ def data_gen(src_path, size):
     return [(X_train, y_train), (X_val, y_val), (X_test, y_test)]
 
 
-# get path to images dir
-dst_path = os.path.join(get_path(), 'data', 'raw')
+if __name__ == '__main__':
+    # change current dir to project's main dir
+    os.chdir(os.path.abspath(os.pardir))
+    os.chdir(os.path.abspath(os.pardir))
+    # save data path
+    data_path = os.path.join('data', 'raw')
+    # convert and split data
+    data = data_gen(data_path, 64)
+    # make processed data dir
+    os.mkdir(os.path.join('data', 'processed'))
+    # change current dir to processed data dir
+    os.chdir(os.path.join('data', 'processed'))
+    # save data into pickle format for later use in processed data dir
+    for position, name in enumerate(['X_train.pickle', 'X_val.pickle', 'X_test.pickle']):
+        with open(name, 'wb') as f:
+            pickle.dump(data[position][0], f)
 
-# convert data into tensors and split it
-data = data_gen(dst_path, 64)
-
-# make processed dir
-os.mkdir(os.path.join(get_path(), 'data', 'processed'))
-
-# change working dir to processed
-os.chdir(os.path.join(get_path(), 'data', 'processed'))
-
-# save data into pickle format for later use in processed dir
-for position, name in enumerate(['X_train.pickle', 'X_val.pickle', 'X_test.pickle']):
-    with open(name, 'wb') as f:
-        pickle.dump(data[position][0], f)
-
-for position, name in enumerate(['y_train.pickle', 'y_val.pickle', 'y_test.pickle']):
-    with open(name, 'wb') as f:
-        pickle.dump(data[position][1], f)
+    for position, name in enumerate(['y_train.pickle', 'y_val.pickle', 'y_test.pickle']):
+        with open(name, 'wb') as f:
+            pickle.dump(data[position][1], f)
