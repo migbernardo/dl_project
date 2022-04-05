@@ -28,6 +28,8 @@ Useful links
 
 12. [Keras - Model saving APIs](https://keras.io/api/models/model_saving_apis/#savemodel-function)
 
+13. [Keras - BatchNormalization](https://keras.io/api/layers/normalization_layers/batch_normalization/)
+
 Networks to train
 
 Shallow CNN 
