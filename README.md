@@ -28,7 +28,9 @@ Useful links
 
 12. [Keras - Model saving APIs](https://keras.io/api/models/model_saving_apis/#savemodel-function)
 
-13. [Keras - BatchNormalization](https://keras.io/api/layers/normalization_layers/batch_normalization/)
+13. [Keras - BatchNormalization](https://keras.io/api/layers/normalization_layers/batch_normalization/) 
+
+14. [Batch Normalization](https://machinelearningmastery.com/batch-normalization-for-training-of-deep-neural-networks/)
 
 Networks to train
 
