@@ -22,6 +22,8 @@ Useful links
 
 10. [Data augmentation tutorial](https://machinelearningmastery.com/how-to-configure-image-data-augmentation-when-training-deep-learning-neural-networks/)
 
+11. [Keras models](https://keras.io/api/applications/)
+
 11. [Keras - ResNet](https://keras.io/api/applications/resnet/) 
 
 12. [Keras - Model saving APIs](https://keras.io/api/models/model_saving_apis/#savemodel-function)
