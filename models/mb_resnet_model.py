@@ -1,17 +1,18 @@
 import os
 import pickle
 import matplotlib.pyplot as plt
+import tensorflow
 from tensorflow import keras
-from keras.models import Sequential
-from keras.layers import MaxPooling2D, Conv2D, Flatten, Dense
+from keras.models import Sequential, Model
+from keras.layers import MaxPooling2D, Conv2D, Flatten, Dense, Dropout
+from keras.applications.resnet import ResNet50
+from mb_initial_model import read_data
 
-
-def read_data(name):
-    with open(name, 'rb') as f:
-        return pickle.load(f)
-
+physical_devices = tensorflow.config.list_physical_devices('GPU')
+tensorflow.config.experimental.set_memory_growth(physical_devices[0], True)
 
 if __name__ == '__main__':
+
     os.chdir(os.path.abspath(os.pardir))
     os.chdir(os.path.join(os.path.abspath(os.curdir), 'data', 'processed'))
 
@@ -28,29 +29,14 @@ if __name__ == '__main__':
     aug_train = datagen.flow(x=X_train, y=y_train, batch_size=16, shuffle=True, seed=1)
     aug_val = datagen.flow(x=X_val, y=y_val, batch_size=16, shuffle=False, seed=1)
 
-    lr_schedule = keras.optimizers.schedules.ExponentialDecay(
-        initial_learning_rate=0.001,
-        decay_steps=1000,
-        decay_rate=1e-6
-    )
+    base_model = ResNet50(input_shape=(64, 64, 3), include_top=False, weights='imagenet')
+    for layer in base_model.layers:
+        layer.trainable = False
 
-    model = Sequential()
-    model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(64, 64, 3)))
-    model.add(MaxPooling2D((4, 4), strides=(2, 2)))
-    model.add(Conv2D(32, (3, 3), activation='relu'))
-    model.add(MaxPooling2D((4, 4), strides=(2, 2)))
-    model.add(Conv2D(32, (3, 3), activation='relu'))
-    model.add(MaxPooling2D((4, 4), strides=(2, 2)))
-    model.add(Flatten())
-    model.add(Dense(128, activation='relu'))
-    model.add(Dense(10, activation='softmax'))
-
-    model.compile(optimizer=keras.optimizers.SGD(
-        learning_rate=lr_schedule,
-        momentum=0.9,
-        nesterov=True,
-        name='SGD'
-    ), loss='categorical_crossentropy', metrics=['accuracy'])
+    x = Flatten()(base_model.output)
+    x = Dense(128, activation='relu')(x)
+    x = Dense(10, activation='softmax')(x)
+    model = Model(base_model.input, x)
 
     hist = model.fit(x=aug_train,
                      epochs=100,
@@ -64,7 +50,7 @@ if __name__ == '__main__':
     os.chdir(os.path.abspath(os.pardir))
     os.chdir(os.path.abspath(os.pardir))
     os.chdir(os.path.join(os.path.abspath(os.curdir), 'models'))
-    model.save('initial_cnn.h5', save_format='h5')
+    model.save('resnet50.h5', save_format='h5')
 
     # plot training and validation loss
     loss = hist.history['loss']
