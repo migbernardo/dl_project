@@ -14,5 +14,5 @@ if __name__ == '__main__':
     os.chdir(os.path.abspath(os.pardir))
     os.chdir(os.path.join(os.path.abspath(os.curdir), 'models'))
 
-    model = load_model('resnet50.5')
+    model = load_model('baseline_resnet50.h5')
     results = model.evaluate(X_test, y_test)

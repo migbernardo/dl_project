@@ -1,10 +1,9 @@
 import os
-import pickle
 import matplotlib.pyplot as plt
 import tensorflow
 from tensorflow import keras
-from keras.models import Sequential, Model
-from keras.layers import MaxPooling2D, Conv2D, Flatten, Dense, Dropout
+from keras.models import Model
+from keras.layers import Flatten, Dense
 from keras.applications.resnet import ResNet50
 from mb_initial_model import read_data
 
@@ -29,28 +28,41 @@ if __name__ == '__main__':
     aug_train = datagen.flow(x=X_train, y=y_train, batch_size=16, shuffle=True, seed=1)
     aug_val = datagen.flow(x=X_val, y=y_val, batch_size=16, shuffle=False, seed=1)
 
+    lr_schedule = keras.optimizers.schedules.ExponentialDecay(
+        initial_learning_rate=0.0001,
+        decay_steps=10000000,
+        decay_rate=1e-6
+    )
+
     base_model = ResNet50(input_shape=(64, 64, 3), include_top=False, weights='imagenet')
     for layer in base_model.layers:
-        layer.trainable = False
+        layer.trainable = True
 
     x = Flatten()(base_model.output)
     x = Dense(128, activation='relu')(x)
     x = Dense(10, activation='softmax')(x)
     model = Model(base_model.input, x)
 
+    model.compile(optimizer=keras.optimizers.SGD(
+        learning_rate=lr_schedule,
+        momentum=0.9,
+        nesterov=True,
+        name='SGD'
+    ), loss='categorical_crossentropy', metrics=['accuracy'])
+
     hist = model.fit(x=aug_train,
-                     epochs=100,
+                     epochs=50,
                      verbose=1,
                      validation_data=aug_val,
                      shuffle=False,
-                     steps_per_epoch=300,
+                     steps_per_epoch=500,
                      use_multiprocessing=False
                      )
 
     os.chdir(os.path.abspath(os.pardir))
     os.chdir(os.path.abspath(os.pardir))
     os.chdir(os.path.join(os.path.abspath(os.curdir), 'models'))
-    model.save('resnet50.h5', save_format='h5')
+    model.save('baseline_resnet50.h5', save_format='h5')
 
     # plot training and validation loss
     loss = hist.history['loss']
@@ -71,6 +83,6 @@ if __name__ == '__main__':
     plt.plot(epochs, val_acc, 'b', label='Validation accuracy')
     plt.title('Training and validation accuracy')
     plt.xlabel('Epochs')
-    plt.ylabel('Loss')
+    plt.ylabel('Accuracy')
     plt.legend()
     plt.show()

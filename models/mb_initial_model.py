@@ -1,6 +1,7 @@
 import os
 import pickle
 import matplotlib.pyplot as plt
+import tensorflow
 from tensorflow import keras
 from keras.models import Sequential
 from keras.layers import MaxPooling2D, Conv2D, Flatten, Dense
@@ -10,6 +11,9 @@ def read_data(name):
     with open(name, 'rb') as f:
         return pickle.load(f)
 
+
+physical_devices = tensorflow.config.list_physical_devices('GPU')
+tensorflow.config.experimental.set_memory_growth(physical_devices[0], True)
 
 if __name__ == '__main__':
     os.chdir(os.path.abspath(os.pardir))
@@ -30,16 +34,16 @@ if __name__ == '__main__':
 
     lr_schedule = keras.optimizers.schedules.ExponentialDecay(
         initial_learning_rate=0.001,
-        decay_steps=1000,
+        decay_steps=1000000,
         decay_rate=1e-6
     )
 
     model = Sequential()
-    model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(64, 64, 3)))
+    model.add(Conv2D(64, (3, 3), activation='relu', input_shape=(64, 64, 3)))
     model.add(MaxPooling2D((4, 4), strides=(2, 2)))
-    model.add(Conv2D(32, (3, 3), activation='relu'))
+    model.add(Conv2D(64, (3, 3), activation='relu'))
     model.add(MaxPooling2D((4, 4), strides=(2, 2)))
-    model.add(Conv2D(32, (3, 3), activation='relu'))
+    model.add(Conv2D(64, (3, 3), activation='relu'))
     model.add(MaxPooling2D((4, 4), strides=(2, 2)))
     model.add(Flatten())
     model.add(Dense(128, activation='relu'))
@@ -53,18 +57,18 @@ if __name__ == '__main__':
     ), loss='categorical_crossentropy', metrics=['accuracy'])
 
     hist = model.fit(x=aug_train,
-                     epochs=100,
+                     epochs=120,
                      verbose=1,
                      validation_data=aug_val,
                      shuffle=False,
-                     steps_per_epoch=300,
+                     steps_per_epoch=500,
                      use_multiprocessing=False
                      )
 
     os.chdir(os.path.abspath(os.pardir))
     os.chdir(os.path.abspath(os.pardir))
     os.chdir(os.path.join(os.path.abspath(os.curdir), 'models'))
-    model.save('initial_cnn.h5', save_format='h5')
+    model.save('baseline_shallow_cnn.h5', save_format='h5')
 
     # plot training and validation loss
     loss = hist.history['loss']
@@ -85,6 +89,6 @@ if __name__ == '__main__':
     plt.plot(epochs, val_acc, 'b', label='Validation accuracy')
     plt.title('Training and validation accuracy')
     plt.xlabel('Epochs')
-    plt.ylabel('Loss')
+    plt.ylabel('Accuracy')
     plt.legend()
     plt.show()
