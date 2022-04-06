@@ -61,3 +61,13 @@ Shallow CNN
 Baselines 
 - Shallow CNN: 0.9119 / 0.9033 (val / test) 
 - ResNet50: 0.9576 / 0.9556 (val / test)
+
+Model 1 
+- all samples
+- 32 filters 
+- 1 Dropout layer (rate=0.5)
+- 120 epochs 
+- 500 steps per epoch
+- augmentation 
+- 0.8761 / 0.8704 (val / test)
+- 905.55 seconds
