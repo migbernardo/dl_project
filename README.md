@@ -56,3 +56,7 @@ Shallow CNN
 - train_samples = 150-200 
 - dropout = 0.7
 - data augmentation
+
+Baselines 
+- Shallow CNN: 0.9119 / 0.9033 (val / test) 
+- ResNet50: 0.9576 / 0.9556 (val / test)
