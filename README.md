@@ -103,4 +103,16 @@ Model 4
 - 500 steps per epoch
 - augmentation 
 - 0.8796 / 0.8752 (val / test)
-- 936.91 seconds
+- 936.91 seconds 
+
+Model 5
+- all samples
+- 2 x stack convolution layers 
+- 32 and 64 filters
+- 3 x dropout layers (rate=0.25 and 0.5)
+- Dense layer with 64 units
+- 100 epochs 
+- 500 steps per epoch
+- augmentation 
+- 0.9107 / 0.8952 (val / test)
+- 888.19 seconds
