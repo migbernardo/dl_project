@@ -93,3 +93,14 @@ Model 3
 - augmentation 
 - 0.9239 / 0.9130 (val / test)
 - 899.37 seconds
+
+Model 4
+- all samples
+- 2 x stack convolution layers 
+- 32 and 64 filters
+- 3 x BatchNormalization layers
+- 100 epochs 
+- 500 steps per epoch
+- augmentation 
+- 0.8796 / 0.8752 (val / test)
+- 936.91 seconds
