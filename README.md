@@ -91,7 +91,7 @@ Model 3
 - 100 epochs 
 - 500 steps per epoch
 - augmentation 
-- 0.9239 / 0.9130 (val / test)
+- 0.9274 / 0.9124 (val / test)
 - 899.37 seconds
 
 Model 4
