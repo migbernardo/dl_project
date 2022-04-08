@@ -40,16 +40,16 @@ if __name__ == '__main__':
     model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(64, 64, 3)))
     model.add(Conv2D(64, (3, 3), activation='relu'))
     model.add(MaxPooling2D((4, 4), strides=(2, 2)))
-    model.add(Dropout(rate=0.25))
+    model.add(Dropout(rate=0.5))
 
     model.add(Conv2D(32, (3, 3), activation='relu'))
     model.add(Conv2D(64, (3, 3), activation='relu'))
     model.add(MaxPooling2D((4, 4), strides=(2, 2)))
-    model.add(Dropout(rate=0.25))
+    model.add(Dropout(rate=0.5))
 
     model.add(Flatten())
     model.add(Dense(128, activation='relu'))
-    model.add(Dropout(rate=0.5))
+    model.add(Dropout(rate=0.7))
     model.add(Dense(10, activation='softmax'))
 
     model.compile(optimizer=keras.optimizers.SGD(
@@ -72,7 +72,7 @@ if __name__ == '__main__':
     os.chdir(os.path.abspath(os.pardir))
     os.chdir(os.path.abspath(os.pardir))
     os.chdir(os.path.join(os.path.abspath(os.curdir), 'models'))
-    model.save('3_shallow_cnn_smallds.h5', save_format='h5')
+    model.save('3_shallow_cnn_smallds_2.h5', save_format='h5')
 
     print('Training time: {} seconds'.format(np.round(sum(timer.logs), decimals=2)))
 

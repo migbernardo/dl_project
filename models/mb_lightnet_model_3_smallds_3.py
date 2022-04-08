@@ -22,7 +22,7 @@ if __name__ == '__main__':
 
     datagen = keras.preprocessing.image.ImageDataGenerator(horizontal_flip=True,
                                                            zoom_range=0.2,
-                                                           shear_range=0.2
+                                                           shear_range=0.2,
                                                            )
 
     aug_train = datagen.flow(x=X_train_sample, y=y_train_sample, batch_size=16, shuffle=True, seed=1)
@@ -64,7 +64,7 @@ if __name__ == '__main__':
                      verbose=1,
                      validation_data=aug_val,
                      shuffle=False,
-                     steps_per_epoch=50,
+                     steps_per_epoch=200,
                      use_multiprocessing=False,
                      callbacks=[timer]
                      )
@@ -72,7 +72,7 @@ if __name__ == '__main__':
     os.chdir(os.path.abspath(os.pardir))
     os.chdir(os.path.abspath(os.pardir))
     os.chdir(os.path.join(os.path.abspath(os.curdir), 'models'))
-    model.save('3_shallow_cnn_smallds.h5', save_format='h5')
+    model.save('3_shallow_cnn_smallds_3.h5', save_format='h5')
 
     print('Training time: {} seconds'.format(np.round(sum(timer.logs), decimals=2)))
 
