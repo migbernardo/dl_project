@@ -139,7 +139,7 @@ Model 7
 - 0.6678 / 0.6383 (val / test)
 - 367.78 seconds 
 
-Model 6
+Model 8
 - 4860 samples
 - 2 x stack convolution layers 
 - 32 and 64 filters
