@@ -155,8 +155,20 @@ Model 9
 - 2 x stack convolution layers 
 - 32 and 64 filters
 - 3 x dropout layers (rate=0.25 and 0.5)
+- batch size 32
 - 100 epochs 
 - 100 steps per epoch
 - augmentation 
 - 0.8309 / 0.8181 (val / test)
 - 498.88 seconds
+
+Model 10 
+- 4860 samples
+- 2 x stack convolution layers 
+- 64 and 128 filters
+- 3 x dropout layers (rate=0.25 and 0.5)
+- 100 epochs 
+- 200 steps per epoch
+- augmentation 
+- 0.8604 / 0.8587 (val / test)
+- 778.85 seconds
