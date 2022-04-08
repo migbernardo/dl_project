@@ -148,7 +148,12 @@ Model 8
 - 200 steps per epoch
 - augmentation 
 - 0.8380 / 0.8450 (val / test)
-- 539.45 seconds
+- 539.45 seconds 
+
+Breaking point of model 8 
+- 3240 samples 
+- 0.8509 / 0.8474 (val / test) 
+- 536.83 seconds
 
 Model 9
 - 4860 samples
@@ -171,4 +176,5 @@ Model 10
 - 200 steps per epoch
 - augmentation 
 - 0.8604 / 0.8587 (val / test)
-- 778.85 seconds
+- 778.85 seconds 
+
