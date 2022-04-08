@@ -127,3 +127,14 @@ Model 6
 - augmentation 
 - 0.7228 / 0.7083 (val / test)
 - 367.62 seconds
+
+Model 7
+- 4860 samples
+- 2 x stack convolution layers 
+- 32 and 64 filters
+- 3 x dropout layers (rate=0.5 and 0.7)
+- 100 epochs 
+- 50 steps per epoch
+- augmentation 
+- 0.6678 / 0.6383 (val / test)
+- 367.78 seconds
