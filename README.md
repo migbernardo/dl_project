@@ -156,7 +156,7 @@ Model 9
 - 32 and 64 filters
 - 3 x dropout layers (rate=0.25 and 0.5)
 - 100 epochs 
-- 200 steps per epoch
+- 100 steps per epoch
 - augmentation 
 - 0.8309 / 0.8181 (val / test)
 - 498.88 seconds
