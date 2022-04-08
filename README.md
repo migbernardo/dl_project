@@ -151,9 +151,14 @@ Model 8
 - 539.45 seconds 
 
 Breaking point of model 8 
+
 - 3240 samples 
 - 0.8509 / 0.8474 (val / test) 
-- 536.83 seconds
+- 536.83 seconds 
+
+- 1620 samples 
+- 0.7928 / 0.7717 (val / test) 
+- 419.46 seconds
 
 Model 9
 - 4860 samples
