@@ -137,4 +137,4 @@ Model 7
 - 50 steps per epoch
 - augmentation 
 - 0.6678 / 0.6383 (val / test)
-- 367.78 seconds
+- 367.78 seconds 
