@@ -125,5 +125,5 @@ Model 6
 - 100 epochs 
 - 50 steps per epoch
 - augmentation 
-- 0.7228 /  (val / test)
+- 0.7228 / 0.7083 (val / test)
 - 367.62 seconds
