@@ -60,7 +60,7 @@ Shallow CNN
 
 Baselines 
 - Shallow CNN: 0.9119 / 0.9033 (val / test) / 860.15 seconds
-- ResNet50: 0.9576 / 0.9556 (val / test)
+- ResNet50: 0.9576 / 0.9556 (val / test) / 2504.20 seconds
 
 Model 1 
 - all samples
