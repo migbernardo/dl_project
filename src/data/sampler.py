@@ -4,22 +4,26 @@ import pickle
 import numpy as np
 
 
+# load image data stored in pickle format
 def read_data(name):
     with open(name, 'rb') as f:
         return pickle.load(f)
 
 
 if __name__ == '__main__':
+    # change directory to processed images
     os.chdir(os.pardir)
     os.chdir(os.pardir)
     os.chdir(os.path.join('data', 'processed'))
 
+    # load processed image train data
     X_train = read_data('X_train.pickle')
     y_train = read_data('y_train.pickle')
 
+    # sample the train set to generate a representative smaller set
     num_img = 16200
     size = 64
-    per_sample = 0.3
+    per_sample = 0.4
     X_sample = np.zeros(shape=[int(num_img * per_sample), size, size, 3])
     y_sample = np.zeros(shape=[int(num_img * per_sample), 10])
 
@@ -42,7 +46,7 @@ if __name__ == '__main__':
             y_sample[count] = label[1][index]
             count += 1
 
-    # save data into pickle format for later use in processed data dir
+    # save data into pickle format for later use in processed data directory
     with open('X_train_small.pickle', 'wb') as f:
         pickle.dump(X_sample, f)
 
