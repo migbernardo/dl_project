@@ -72,10 +72,10 @@ dl_project
 ### Trained networks
 
 Baselines 
-- Shallow CNN: 0.9119 / 0.9033 (val / test) / 860.15 seconds
-- ResNet50: 0.9576 / 0.9556 (val / test) / 2504.20 seconds
+- Shallow CNN (mb_initial_model.py): 0.9119 / 0.9033 (val / test) / 860.15 seconds
+- ResNet50 (mb_restnet_model.py): 0.9576 / 0.9556 (val / test) / 2504.20 seconds
 
-Model 1 
+Model 1 (mb_lightnet_model_1.py)
 - all samples
 - 32 filters 
 - 1 Dropout layer (rate=0.5)
@@ -85,7 +85,7 @@ Model 1
 - 0.8761 / 0.8704 (val / test)
 - 905.55 seconds
 
-Model 2 
+Model 2 (mb_lightnet_model_2.py)
 - all samples
 - 2 x stack convolution layers 
 - 32 and 64 filters
@@ -96,7 +96,7 @@ Model 2
 - 0.9165 / 0.9076 (val / test)
 - 866.20 seconds
 
-Model 3 
+Model 3 (mb_lightnet_model_3.py)
 - all samples
 - 2 x stack convolution layers 
 - 32 and 64 filters
@@ -107,7 +107,7 @@ Model 3
 - 0.9274 / 0.9124 (val / test)
 - 899.37 seconds
 
-Model 4
+Model 4 (mb_lightnet_model_4.py)
 - all samples
 - 2 x stack convolution layers 
 - 32 and 64 filters
@@ -118,7 +118,7 @@ Model 4
 - 0.8796 / 0.8752 (val / test)
 - 936.91 seconds 
 
-Model 5
+Model 5 (mb_lightnet_model_5.py)
 - all samples
 - 2 x stack convolution layers 
 - 32 and 64 filters
@@ -130,7 +130,7 @@ Model 5
 - 0.9107 / 0.8952 (val / test)
 - 888.19 seconds 
 
-Model 6
+Model 6 (mb_lightnet_model_3_smallds.py)
 - 4860 samples
 - 2 x stack convolution layers 
 - 32 and 64 filters
@@ -141,7 +141,7 @@ Model 6
 - 0.7228 / 0.7083 (val / test)
 - 367.62 seconds
 
-Model 7
+Model 7 (mb_lightnet_model_3_smallds_2.py)
 - 4860 samples
 - 2 x stack convolution layers 
 - 32 and 64 filters
@@ -152,7 +152,7 @@ Model 7
 - 0.6678 / 0.6383 (val / test)
 - 367.78 seconds 
 
-Model 8
+Model 8 (mb_lightnet_model_3_smallds_3.py)
 - 4860 samples
 - 2 x stack convolution layers 
 - 32 and 64 filters
@@ -177,7 +177,7 @@ Breaking point of model 8
 - 0.7928 / 0.7717 (val / test) 
 - 419.46 seconds
 
-Model 9
+Model 9 (mb_lightnet_model_3_smallds_4.py)
 - 4860 samples
 - 2 x stack convolution layers 
 - 32 and 64 filters
@@ -189,7 +189,7 @@ Model 9
 - 0.8309 / 0.8181 (val / test)
 - 498.88 seconds
 
-Model 10 
+Model 10 (mb_lightnet_model_3_smallds_5.py)
 - 4860 samples
 - 2 x stack convolution layers 
 - 64 and 128 filters
@@ -200,3 +200,4 @@ Model 10
 - 0.8604 / 0.8587 (val / test)
 - 778.85 seconds 
 
+Model 3 for class activation maps (mb_lightnet_model_3_gmp.py)
