@@ -4,32 +4,24 @@ Repository for storing the course project for the NOVA IMS master course Deep Le
 
 ### Description
 
-This project is about the devolpment of simple convolution neural network that can be quickly trained and used for land use or cover classifiction from satellite satellite. The idea was inspired in the work of [phelber](https://github.com/phelber/EuroSAT) and done for learning purposes.
+This project is about the devolpment of simple convolution neural network that can be quickly trained and used for land use or cover classifiction from satellite images. The idea was inspired in the work of [phelber](https://github.com/phelber/EuroSAT) and done for learning purposes.
 
 ![image](https://user-images.githubusercontent.com/91217958/164242074-586da8c6-549a-4832-8c43-44803981c7ca.png)
 
 
-### (Suggested) Structure of a Business Case
-
-A template for structuring the development of a business case is provided
-in `BC0_template/`. Of course, this is simply a suggestion on a way to
-structure the development of your business cases, you are free to structure
-them however you like.
+### Repo's structure
 
 ```
-BC<X>_<name of business case>
-├── analysis <---- Your visualizations, tables, diagrams, etc. can be stored 
-│                  here. These can come from any step of the CRISP-DM process.
+dl_project
+├── data <-------- Where the raw and processed data is stored after running
+│                  the load and preprocessing scripts respectively
+|                  in the src directory
 │
-├── content <----- Your report and presentation should be stored here. You may
-│                  want to include the pdf version of those files (allows the
-│                  preview of those documents directly in GitHub).
-│
-├── data <-------- Your datasets should be stored here. Feel free to separate
-│                  your data in different directories:
-│                  - raw (original, immutable data)
-│                  - interim (intermediate preprocessing steps) 
-│                  - processed (processed data)
+├── content <----- Where the pdf report is saved
+│          
+├── models <------ The place where all models are saved as .h5 files and 
+|                  the confusion_matrix and class_activation_map scripts 
+|                  are saved
 │
 ├── description <- You may include the original business case and eventual 
 │                  support materials here. Alternatively, just add the
