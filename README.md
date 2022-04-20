@@ -33,8 +33,8 @@ dl_project
 ├── src ──┤
 |         └── model <------ contains all scripts related with model training and saving
 │
-├── requeriments.txt <----- list of all packages used in the project can be installed on the virtual environment
-|                           with the terminal command: "pip install -r requirements.txt"
+├── requeriments.txt <----- list of all packages used in the project can be installed on the virtual 
+|                           environment with the terminal command: "pip install -r requirements.txt"
 |
 └── README.md <------------ info file
 ```
