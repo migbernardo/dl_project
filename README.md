@@ -13,29 +13,26 @@ This project is about the devolpment of simple convolution neural network that c
 
 ```
 dl_project
-├── data <-------- Where the raw and processed data is stored after running
-│                  the load and preprocessing scripts respectively
-|                  in the src directory
+|          ┌── raw <-- contains all scripts related with data generation or transformation
+├── data ──┤
+|          └── processed <- contains all scripts related with model training and saving
 │
-├── content <----- Where the pdf report is saved
+├── content <-------------- contains the project's pdf report
 │          
-├── models <------ The place where all models are saved as .h5 files and 
-|                  the confusion_matrix and class_activation_map scripts 
-|                  are saved
+├── models <--------------- contains the confusion_matrix and class_activation_map scripts and 
+|                           the saved models as .h5 files after running the respective scripts
+|                           in src/model
+|                 
 │
-├── description <- You may include the original business case and eventual 
-│                  support materials here. Alternatively, just add the
-│                  business case description to the README.md file.
+├── notebooks <------- contains all data exploration jupyter notebooks
 │
-├── scripts <----- Your scripts should be stored here. Aim to keep the
-│                  different steps of your analyses in separate scripts. If
-│                  you prefer to work with notebooks (although we recommend
-│                  using scripts for the sake of ease of use and
-│                  reproducibility)
+|         ┌── data <-- contains all scripts related with data generation or transformation
+├── src ──┤
+|         └── model <- contains all scripts related with model training and saving
 │
-└── README.md <--- You may use this file to store the problem description.
-                   This is automatically displayed in on GitHub, making it
-                   easier for anyone to understand the goals of this project.
+├── requeriments.txt
+|
+└── README.md 
 ```
 
 
