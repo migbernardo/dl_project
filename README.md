@@ -1,16 +1,15 @@
-# Deep learning course project 
+## Deep learning course project 
 
-Repository for storing the course project for the NOVA IMS
-master course Deep Learning (academic year 2021/2022)
+Repository for storing the course project for the NOVA IMS master course Deep Learning (academic year 2021/2022)
 
-## Description
+### Description
 
-Whenever a new business case is made available, it is going to be provided
-both in the course's moodle page as well as a Markdown file in its
-corresponding folder, which will also contain the necessary data for you to
-develop the project.
+This project is about the devolpment of simple convolution neural network that can be quickly trained and used for land use or cover classifiction from satellite satellite. The idea was inspired in the work of [phelber](https://github.com/phelber/EuroSAT) and done for learning purposes.
 
-## (Suggested) Structure of a Business Case
+![image](https://user-images.githubusercontent.com/91217958/164242074-586da8c6-549a-4832-8c43-44803981c7ca.png)
+
+
+### (Suggested) Structure of a Business Case
 
 A template for structuring the development of a business case is provided
 in `BC0_template/`. Of course, this is simply a suggestion on a way to
