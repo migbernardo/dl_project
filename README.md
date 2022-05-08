@@ -4,7 +4,7 @@ Repository for storing the course project for the NOVA IMS master course Deep Le
 
 ### Description
 
-This project is about the development of a simple convolution neural network that can be quickly trained and used for land use or cover classification from satellite images. The idea was inspired in the work of [phelber](https://github.com/phelber/EuroSAT) and done for learning purposes.
+This project is about the development of a simple convolutional neural network that can be quickly trained and used for land use or cover classification from satellite images. The idea was inspired in the work of [phelber](https://github.com/phelber/EuroSAT) and done for learning purposes.
 
 ![image](https://user-images.githubusercontent.com/91217958/164242074-586da8c6-549a-4832-8c43-44803981c7ca.png)
 
